@@ -120,30 +120,57 @@ async def error_handler(update, context: ContextTypes.DEFAULT_TYPE):
 # MAIN FUNCTION
 # ============================================================
 
-def main():
-    if not TELEGRAM_BOT_TOKEN:
-        print("ERROR: TELEGRAM_BOT_TOKEN not found in .env")
-        return
+# ============================================================
+# MAIN FUNCTION
+# ============================================================
 
+def main():
     print("=" * 60)
     print("SUPERMARKET OPS TELEGRAM BOT")
     print("=" * 60)
-    print("Bot is starting...")
 
-    app = Application.builder().token(TELEGRAM_BOT_TOKEN).build()
+    try:
+        # Check Telegram token
+        if not TELEGRAM_BOT_TOKEN:
+            print("ERROR: TELEGRAM_BOT_TOKEN is NOT set")
+            return
 
-    app.add_handler(CommandHandler("start", start))
-    app.add_handler(CommandHandler("clear", clear_chat))
-    app.add_handler(CommandHandler("new", clear_chat))
+        print("TELEGRAM_BOT_TOKEN found")
+        print("Bot is starting...")
 
-    app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
+        # Create Telegram application
+        app = Application.builder().token(TELEGRAM_BOT_TOKEN).build()
 
-    app.add_error_handler(error_handler)
+        # Commands
+        app.add_handler(CommandHandler("start", start))
+        app.add_handler(CommandHandler("clear", clear_chat))
+        app.add_handler(CommandHandler("new", clear_chat))
 
-    print("Telegram bot is running...")
-    print("Press Ctrl + C to stop.")
+        # Normal text messages
+        app.add_handler(
+            MessageHandler(
+                filters.TEXT & ~filters.COMMAND,
+                handle_message
+            )
+        )
 
-    app.run_polling()
+        # Error handler
+        app.add_error_handler(error_handler)
+
+        print("Telegram bot is running...")
+        print("Starting polling...")
+
+        # Keep bot running and listen for Telegram updates
+        app.run_polling()
+
+    except Exception as e:
+        print("=" * 60)
+        print("FATAL TELEGRAM BOT ERROR")
+        print("=" * 60)
+        print(f"{type(e).__name__}: {e}")
+
+        import traceback
+        traceback.print_exc()
 
 
 if __name__ == "__main__":
