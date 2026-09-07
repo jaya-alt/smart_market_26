@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+venv/
+.venv/
+env/
+
+# Secrets
+.env
+
+# Database
+*.db
+*.sqlite3
+
+# Generated artifacts (invoices/reports are runtime output, not source)
+generated/
+
+# Stray root-level generated files from earlier runs
+*.pptx
+*.pdf
+
+# OS / editor
+.DS_Store
+.vscode/
+.idea/
