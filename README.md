@@ -161,3 +161,6 @@ python -m app.telegram.bot
 ```
 
 The `.env` file and database files are excluded from Git using `.gitignore`.
+## Demo Video
+
+[Watch the 4–5 minute demo](https://drive.google.com/file/d/1z87z_XeuZw2kFkqzQBlhtXdrOpNKXZbJ/view?usp=drivesdk)
